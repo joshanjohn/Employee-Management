@@ -7,13 +7,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.empServer.employee.entity.Employee;
 import com.empServer.employee.service.EmployeeService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -38,5 +43,17 @@ public class EmployeeController {
         return employeeService.getAllEmployee();
     }
     
+
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<?> deleteEmployeeById(@PathVariable Long id) {
+        try{
+            employeeService.deleteEmployeeById(id);
+            return new ResponseEntity<>("Employee with ID " + id + " deleted sucessfully.", HttpStatus.OK);
+        }catch(EntityNotFoundException e){ 
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+
 
 }
