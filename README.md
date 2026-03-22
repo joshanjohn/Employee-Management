@@ -1,4 +1,4 @@
-# Employee Management Application (Spring + React + MySQL)
+# Employee Management Application (Spring + React + MySQL)
 Simple CRUD application using java spring as backend, react js frontent and MySQL for managing user data. 
 
 
