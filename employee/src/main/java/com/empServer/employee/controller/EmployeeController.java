@@ -1,0 +1,42 @@
+package com.empServer.employee.controller;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.empServer.employee.entity.Employee;
+import com.empServer.employee.service.EmployeeService;
+
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+
+@RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
+@CrossOrigin("*")
+public class EmployeeController {
+
+    private final EmployeeService employeeService; 
+
+    @PostMapping("/employee")
+    public Employee postEmployee(
+        @RequestBody Employee employee
+    ){ 
+        return employeeService.postEmployee(employee);
+    }
+
+
+    @GetMapping("/employees")
+    public List<Employee> getEmployee() {
+        return employeeService.getAllEmployee();
+    }
+    
+
+}
