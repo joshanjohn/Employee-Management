@@ -23,14 +23,14 @@ export default function PostUser() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         console.log(formData);
 
-        try{
+        try {
             const response = await fetch("http://localhost:8080/api/employee", {
-                method: "POST", 
-                headers: { "Content-Type": "application/json" }, 
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
 
             })
@@ -39,10 +39,10 @@ export default function PostUser() {
             console.log("Employee created: ", data);
 
             navigate("/");
-        }catch (error){
+        } catch (error) {
             console.log("Error creating employee", error.message);
         }
-    } 
+    }
 
 
     return (
