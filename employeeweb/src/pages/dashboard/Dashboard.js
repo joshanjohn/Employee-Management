@@ -1,8 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+
     const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
+
+
+    const handleDelete = async (employeeId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/employee/${employeeId}`, {
+                method: 'DELETE',
+            });
+            console.log('Item deleted');
+
+            if (response.ok) {
+                setEmployees((prevEmployees) => prevEmployees.filter((employee) => employee.id !== employeeId))
+            }
+        } catch (error) {
+            console.log("Error deleting employee", error.message);
+        }
+    }
+
+    const handleUpdate = async (employeeId) => {
+        navigate(`/employee/${employeeId}`);
+    }
 
     useEffect(
         () => {
@@ -47,8 +70,8 @@ export default function Dashboard() {
                                         <td>{employee.phone}</td>
                                         <td>{employee.department}</td>
                                         <td>
-                                        <Button variant='outline-secondary'>Update</Button>{" "}
-                                        <Button variant='outline-danger'>Delete</Button>
+                                            <Button variant='outline-secondary' onClick={() => handleUpdate(employee.id)}>Update</Button>{" "}
+                                            <Button variant='outline-danger' onClick={() => handleDelete(employee.id)}>Delete</Button>
                                         </td>
                                     </tr>
                                 ))
