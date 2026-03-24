@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
+
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -30,6 +32,23 @@ public class EmployeeController {
 
     private final EmployeeService employeeService; 
 
+
+    @GetMapping("/employees")
+    public List<Employee> getEmployee() {
+        return employeeService.getAllEmployee();
+    }
+
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        
+        if (employee == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employee);
+    }
+    
+    
     @PostMapping("/employee")
     public Employee postEmployee(
         @RequestBody Employee employee
@@ -38,11 +57,6 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/employees")
-    public List<Employee> getEmployee() {
-        return employeeService.getAllEmployee();
-    }
-    
 
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<?> deleteEmployeeById(@PathVariable Long id) {
@@ -54,6 +68,5 @@ public class EmployeeController {
         }
     }
     
-
 
 }

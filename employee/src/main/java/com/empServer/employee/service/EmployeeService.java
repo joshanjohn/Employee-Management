@@ -1,6 +1,7 @@
 package com.empServer.employee.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,21 +15,45 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmployeeService {
 
-    private final EmployeeRepository exmployeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     public Employee postEmployee(Employee employee){ 
-        return exmployeeRepository.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public List<Employee> getAllEmployee(){ 
-        return exmployeeRepository.findAll();
+        return employeeRepository.findAll();
+    }
+
+
+    public Employee getEmployeeById(Long id){
+        return employeeRepository.findById(id).orElse(null);
     }
 
     public void deleteEmployeeById(Long id){ 
-        if (!exmployeeRepository.existsById(id)){
+        if (!employeeRepository.existsById(id)){
             throw new EntityNotFoundException("Employee id " + id + " not found.");
         }
-        exmployeeRepository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
+
+
+    public Employee updatEmployee(Long id, Employee employee){
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        
+        if (optionalEmployee.isPresent()){ 
+            Employee existingEmployee = optionalEmployee.get();
+
+            existingEmployee.setEmail(employee.getEmail());
+            existingEmployee.setName(employee.getName());
+            existingEmployee.setPhone(employee.getPhone());
+            existingEmployee.setDepartment(employee.getDepartment());
+            return employeeRepository.save(existingEmployee);
+        }
+
+        return null;
+    }
+
+  
 
 }
